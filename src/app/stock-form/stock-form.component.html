@@ -1,0 +1,24 @@
+<mat-card>
+  <form (submit)="onAddStockForm(stockForm)" #stockForm="ngForm">
+    <h3>Please Enter a Stock Symbol</h3>
+    <mat-form-field hintLabel="Enter a Stock Symbol" appearance="fill">
+      <mat-label>Enter a stock symbol</mat-label>
+      <input
+        matInput
+        type="text"
+        name="symbol"
+        ngModel
+        required
+        #symbol="ngModel"
+        placeholder="Ex. AAPL"
+        minlength="1"
+        maxlength="5"
+      />
+      <mat-hint align="end">{{ symbol.value?.length || 0 }}/ 5</mat-hint>
+      <mat-error *ngIf="symbol.invalid">Please enter a stock symbol</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">
+      Search Symbol
+    </button>
+  </form>
+</mat-card>

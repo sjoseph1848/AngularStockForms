@@ -28,7 +28,9 @@
               "src/styles.scss",
               "src/_base.scss",
               "src/_layout.scss",
-              "src/_component.scss"
+              "src/_component.scss",
+              "src/_variables.scss",
+              "src/_custom.scss"
             ],
             "scripts": []
           },
