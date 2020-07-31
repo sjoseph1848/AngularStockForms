@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { StockSymbol } from '../models/StockSymbol';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-stock-form',
@@ -12,23 +13,32 @@ export class StockFormComponent implements OnInit {
     stockSymbol: 'AAPL'
   }
   validSymbol: boolean = false;
-
+  profileStock: any;
   stockSymbol: StockSymbol = { ...this.originalSymbol };
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
 
   onAddStockForm(form: NgForm) {
     if (form.valid) {
-      this.validSymbol = true;
-    } else {
-      this.validSymbol = false;
+      const stock = this.getStockProfile(form.value.theSymbol);
+      stock.subscribe((data: any) => {
+        this.profileStock = data;
+        if (this.profileStock) {
+          this.validSymbol = true;
+        } else {
+          this.validSymbol = false;
+        }
+      });
+      console.log('in on Submit: ', form.valid);
+      console.log('in on Submit: ', form.value.theSymbol);
     }
-    console.log('in on Submit: ', form.valid);
-    console.log('in on Submit: ', form.value.theSymbol);
+  }
 
+  getStockProfile(stSymbol: string) {
+    let url = `http://localhost:3000/stocks/${stSymbol}`;
+    return this.http.get(url);
   }
 
 }
